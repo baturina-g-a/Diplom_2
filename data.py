@@ -17,5 +17,4 @@ INVALID_DATA_MESSAGE = 'email or password are incorrect'
 ALREADY_EXISTING_USER_MESSAGE = 'User already exists'
 EMPTY_REQUIRED_FIELDS_MESSAGE = 'Email, password and name are required fields'
 UNAUTHORIZED_USER_MESSAGE = 'You should be authorised'
-
 MISSING_INGREDIENTS_MESSAGE = 'Ingredient ids must be provided'

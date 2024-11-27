@@ -1,3 +1,4 @@
+import allure
 import pytest
 
 import data
@@ -7,12 +8,18 @@ from methods.user_methods import UserMethods
 
 class TestLoginUser:
 
-    def test_post_login_user_existing_user_successfully(self):
+    @allure.title('Проверка логина существующего пользователя')
+    @allure.description('Проверяем, что при заполнении всех обязательных полей происходит логин существующего '
+                        'пользователя, получаем: код ответа 200 и тело ответа содержит accessToken')
+    def test_post_login_existing_user_successfully(self):
         payload = data.EXISTING_USER
         user_methods = UserMethods()
         status_code, response_context = user_methods.post_login_user(payload)
         assert status_code == 200 and 'accessToken' in response_context
 
+    @allure.title('Проверка, что невозможен логин пользователя с некорректным логином (email) или паролем')
+    @allure.description('Проверяем, что если в поле логина/пароля ввести несоответствующее значение, то авторизация '
+                        'не происходит, получаем: код ответа 401 и сообщение, что данные введены некорректно')
     @pytest.mark.parametrize(
         'email, password',
         [
@@ -33,6 +40,9 @@ class TestLoginUser:
         status_code, response_context = user_methods.post_login_user(payload)
         assert status_code == 401 and response_context["message"] == data.INVALID_DATA_MESSAGE
 
+    @allure.title('Проверка, что невозможен логин пользователя с незаполненным логином (email) или паролем')
+    @allure.description('Проверяем, что если оставить поле логина/пароля пустым, то авторизация не происходит, '
+                        'получаем: код ответа 401 и сообщение, что данные некорректны')
     @pytest.mark.parametrize(
         'email, password',
         [
